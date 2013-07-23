@@ -54,7 +54,7 @@
     [mapView setShowsUserLocation:YES];
     
     MKUserLocation * userLocation = mapView.userLocation;
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 400, 400);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 500, 500);
     [mapView setRegion:region animated:YES];
     
     CLLocationCoordinate2D hydrant;

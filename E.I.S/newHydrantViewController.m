@@ -14,6 +14,8 @@
 
 @implementation newHydrantViewController
 
+@synthesize lblHeaderText, mapView, lblHydrantArt, lblBezeichnung, lblLat, lblLon, lblMenge, btnHinzufuegen, locationManager, edtLat, edtLon;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,8 +28,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Test";
+    lblHeaderText.text = @"neuen Hydrant hinzufügen";
+    lblHydrantArt.text = @"Hydrantenart:";
+    lblBezeichnung.text = @"Bezeichnung:";
+    lblLat.text = @"Breitengrad:";
+    lblLon.text = @"Längengrad:";
+    lblMenge.text = @"Menge";
+    [btnHinzufuegen setTitle:@"Hydrant hinzufügen" forState:UIControlStateNormal];
 	// Do any additional setup after loading the view.
+    
+    locationManager = [[CLLocationManager alloc]init];
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    [locationManager startUpdatingLocation];
+    
+    [edtLat setText:[NSString stringWithFormat:@"%f", locationManager.location.coordinate.latitude]];
+    [edtLon setText:[NSString stringWithFormat:@"%f", locationManager.location.coordinate.longitude]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,5 +51,23 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [mapView setShowsUserLocation:YES];
+    
+    MKUserLocation * userLocation = mapView.userLocation;
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 100, 100);
+    [mapView setRegion:region animated:YES];
+}
+
+//-(NSString *)deviceLocation {
+  //  NSString *theLocation = [NSString stringWithFormat:@"latitude: %f longitude: %f", locationManager.location.coordinate.latitude, locationManager.location.coordinate.longitude];
+    
+    
+    //return theLocation;
+//}
+
+
 
 @end
